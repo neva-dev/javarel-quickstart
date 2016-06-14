@@ -1,2 +1,4 @@
 rootProject.name = 'quickstart'
 
+include ':app:core'
+include ':app:adm'
