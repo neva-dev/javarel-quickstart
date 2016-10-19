@@ -8,19 +8,19 @@ import org.apache.felix.scr.annotations.Component
 import org.apache.felix.scr.annotations.Reference
 import org.apache.felix.scr.annotations.Service
 
-@Service
-@Component
+@Service(AuthenticableProvider::class)
+@Component(immediate = true)
 class UserProvider : AuthenticableProvider {
 
     @Reference
     private lateinit var db: DatabaseAdmin
 
     override fun byIdentifier(identifier: String): User? {
-        return db.session { UserRepository(it).findBy(mapOf(User.EMAIL_COLUMN to identifier)).firstOrNull() }
+        return db.session { UserRepository(it).findOneBy(mapOf(User.EMAIL_COLUMN to identifier)) }
     }
 
     override fun byCredentials(credentials: Credentials): User? {
-        return db.session { UserRepository(it).findBy(credentials).firstOrNull() }
+        return db.session { UserRepository(it).findOneBy(credentials) }
     }
 
     override val guest: Authenticable

@@ -5,7 +5,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "adm_user")
+@Table(name = "adm_auth_user")
 open class User : Authenticable {
 
     companion object {
@@ -17,11 +17,14 @@ open class User : Authenticable {
     @Column
     lateinit var id: Integer
 
-    @Column(name = EMAIL_COLUMN)
+    @Column(name = EMAIL_COLUMN, nullable = false)
     lateinit var email: String
 
-    @Column
+    @Column(length = 64, nullable = false)
     lateinit var password: String
+
+    @Column(length = 80, nullable = false)
+    lateinit var salt: String
 
     @Column
     lateinit var name: String
@@ -34,6 +37,7 @@ open class User : Authenticable {
         this.password = password
         this.name = name
         this.birth = birth
+        this.password = password
     }
 
     constructor() {
