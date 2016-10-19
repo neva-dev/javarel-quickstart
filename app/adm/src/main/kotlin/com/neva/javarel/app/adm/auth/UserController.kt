@@ -3,12 +3,15 @@ package com.neva.javarel.app.adm.auth
 import com.neva.javarel.communication.rest.api.Redirect
 import com.neva.javarel.communication.rest.api.UrlGenerator
 import com.neva.javarel.communication.rest.api.Uses
+import com.neva.javarel.presentation.view.api.View
+import com.neva.javarel.resource.api.ResourceResolver
 import com.neva.javarel.security.auth.api.Credentials
 import com.neva.javarel.security.auth.api.Guard
 import com.neva.javarel.storage.api.DatabaseAdmin
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 import javax.ws.rs.GET
+import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
@@ -26,11 +29,14 @@ class UserController {
     @Uses
     private lateinit var urlGenerator: UrlGenerator
 
+    @Uses
+    private lateinit var resourceResolver: ResourceResolver
+
     @GET
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     fun getCreate(): User {
-        return db.session { em ->
+        return db.session() { em ->
             val repo = UserRepository(em)
             val user = User("ciapunek@gmail.com", "test123", RandomStringUtils.randomAscii(8), Date())
 
@@ -55,12 +61,20 @@ class UserController {
     @GET
     @Path("/login")
     @Produces(MediaType.TEXT_HTML)
-    fun getLogin(): Response {
+    fun getLogin(): String {
+        return resourceResolver.findOrFail("bundle://adm/view/auth/user/login.peb")
+                .adaptTo(View::class)
+                .render()
+    }
+
+    @POST
+    @Path("/login")
+    fun postLogin(): Response {
         if (guard.attempt(Credentials())) {
             return Redirect.to(urlGenerator.name("home"))
         }
 
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.status(Response.Status.UNAUTHORIZED).build()
     }
 
 }

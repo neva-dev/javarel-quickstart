@@ -2,6 +2,21 @@
 
 Sample application that can be used as quick start for using [Javarel Framework](https://github.com/neva-dev/javarel-framework).
 
+## Documentation
+
+### Basics
+
+* [Quickstart](doc/quickstart.md)
+* [Controllers](doc/controllers.md)
+* [Views](doc/views.md)
+* [Models](doc/models.md)
+
+### Architecture
+
+* [Resources](doc/resources.md)
+* [Routing](doc/routing.md)
+* [Scheduling](doc/scheduling.md)
+
 ## Contributing
 
 1. Fork it!

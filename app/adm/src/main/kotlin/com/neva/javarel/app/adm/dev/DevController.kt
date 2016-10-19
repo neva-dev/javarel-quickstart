@@ -25,30 +25,22 @@ class DevController {
 
     @Path("/rest-routes")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getRestRoutes(): Response? {
-        val html = resourceResolver.findOrFail("bundle://adm/view/dev/rest-routes.peb")
+    @Produces(MediaType.TEXT_HTML)
+    fun getRestRoutes(): String {
+        return resourceResolver.findOrFail("bundle://adm/view/dev/rest-routes.peb")
                 .adaptTo(View::class)
                 .with("routes", router.routes.sortedBy { it.path })
                 .render()
-
-        return Response.ok(html)
-                .type(MediaType.TEXT_HTML)
-                .build()
     }
 
     @Path("/adapters")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getAdapters(): Response? {
-        val html = resourceResolver.findOrFail("bundle://adm/view/dev/adapters.peb")
+    @Produces(MediaType.TEXT_HTML)
+    fun getAdapters(): String {
+        return resourceResolver.findOrFail("bundle://adm/view/dev/adapters.peb")
                 .adaptTo(View::class)
                 .with("adapters", adaptingManager.adapters)
                 .render()
-
-        return Response.ok(html)
-                .type(MediaType.TEXT_HTML)
-                .build()
     }
 
 }
