@@ -3,31 +3,12 @@ package com.neva.javarel.app.adm.auth
 import com.neva.javarel.app.core.rest.Controller
 import com.neva.javarel.communication.rest.api.Redirect
 import com.neva.javarel.security.auth.api.Credentials
-import org.apache.commons.lang3.RandomStringUtils
-import java.util.*
-import javax.ws.rs.GET
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
 @Path("/adm/auth/user")
 class UserController : Controller() {
-
-    @GET
-    @Path("/create")
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getCreate(): User {
-        return db.session() { em ->
-            val repo = UserRepository(em)
-            val user = User("ciapunek@gmail.com", "test123", RandomStringUtils.randomAscii(8), Date())
-
-            repo.save(user)
-
-            return@session user
-        }
-    }
 
     @GET
     @Path("/list")
@@ -67,12 +48,14 @@ class UserController : Controller() {
 
     @POST
     @Path("/register")
-    fun postRegister(): Response {
-        if (guard.attempt(Credentials())) {
-            return Redirect.to(urlGenerator.name("home"))
-        }
+    @Produces(MediaType.APPLICATION_JSON)
+    fun postRegister(@FormParam("user.email") email : String, @FormParam("user.password") password : String, @FormParam("user.name") name : String): User {
+        return db.session { em ->
+            val repo = UserRepository(em)
+            val user = repo.register(email, password, name)
 
-        return Response.status(Response.Status.UNAUTHORIZED).build()
+            return@session user
+        }
     }
 
 }

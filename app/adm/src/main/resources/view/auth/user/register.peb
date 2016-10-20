@@ -1,0 +1,29 @@
+{% extends "bundle://adm/view/layout/master.peb" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="page-header">
+        <h1>User <small>&mdash; register</h1>
+    </div>
+
+    <form action="{{ route(action='adm.auth.UserController.postRegister') }}" method="POST">
+        <div class="form-group">
+            <label for="user-email">E-mail</label>
+            <input id="user-email" name="user.email" type="email" class="form-control" placeholder="E-mail">
+        </div>
+        <div class="form-group">
+            <label for="user-password">Password</label>
+            <input id="user-password" name="user.password" type="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="user-name">Name</label>
+            <input id="user-name" name="user.name" type="name" class="form-control" placeholder="Full name or nick">
+        </div>
+        <button type="submit" class="btn btn-default">Register</button>
+    </form>
+
+</div>
+
+{% endblock %}

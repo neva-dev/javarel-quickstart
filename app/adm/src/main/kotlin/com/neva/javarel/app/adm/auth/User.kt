@@ -1,6 +1,7 @@
 package com.neva.javarel.app.adm.auth
 
 import com.neva.javarel.security.auth.api.Authenticable
+import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 import javax.persistence.*
 
@@ -38,6 +39,7 @@ open class User : Authenticable {
         this.name = name
         this.birth = birth
         this.password = password
+        this.salt = RandomStringUtils.randomAscii(32)
     }
 
     constructor() {
