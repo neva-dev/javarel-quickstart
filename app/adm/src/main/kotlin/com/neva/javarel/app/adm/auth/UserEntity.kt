@@ -1,13 +1,12 @@
 package com.neva.javarel.app.adm.auth
 
 import com.neva.javarel.security.auth.api.Authenticable
-import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "adm_auth_user")
-open class User : Authenticable {
+open class UserEntity : Authenticable {
 
     companion object {
         const val EMAIL_COLUMN = "email"
@@ -32,15 +31,6 @@ open class User : Authenticable {
 
     @Column
     lateinit var birth: Date
-
-    constructor(email: String, password: String, name: String, birth: Date) {
-        this.email = email
-        this.password = password
-        this.name = name
-        this.birth = birth
-        this.password = password
-        this.salt = RandomStringUtils.randomAscii(32)
-    }
 
     constructor() {
         // default constructor

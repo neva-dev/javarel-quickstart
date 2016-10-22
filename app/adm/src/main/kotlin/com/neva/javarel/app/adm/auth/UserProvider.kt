@@ -15,11 +15,11 @@ class UserProvider : AuthenticableProvider {
     @Reference
     private lateinit var db: DatabaseAdmin
 
-    override fun byIdentifier(identifier: String): User? {
-        return db.session { UserRepository(it).findOneBy(mapOf(User.EMAIL_COLUMN to identifier)) }
+    override fun byIdentifier(identifier: String): UserEntity? {
+        return db.session { UserRepository(it).findOneBy(mapOf(UserEntity.EMAIL_COLUMN to identifier)) }
     }
 
-    override fun byCredentials(credentials: Credentials): User? {
+    override fun byCredentials(credentials: Credentials): UserEntity? {
         return db.session { UserRepository(it).findOneBy(credentials) }
     }
 

@@ -13,7 +13,7 @@ class UserController : Controller() {
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getList(): List<User> {
+    fun getList(): List<UserEntity> {
         return db.session { em ->
             val repo = UserRepository(em)
             val users = repo.findAll()
@@ -49,10 +49,10 @@ class UserController : Controller() {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
-    fun postRegister(@FormParam("user.email") email : String, @FormParam("user.password") password : String, @FormParam("user.name") name : String): User {
+    fun postRegister(@BeanParam input : UserInput): UserEntity {
         return db.session { em ->
             val repo = UserRepository(em)
-            val user = repo.register(email, password, name)
+            val user = repo.register(input)
 
             return@session user
         }

@@ -1,17 +1,25 @@
 package com.neva.javarel.app.adm.auth
 
 import com.neva.javarel.storage.api.repository.DomainRepository
+import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 import javax.persistence.EntityManager
 import kotlin.reflect.KClass
 
-class UserRepository(em: EntityManager) : DomainRepository<User, Long>(em) {
+class UserRepository(em: EntityManager) : DomainRepository<UserEntity, Long>(em) {
 
-    override val domainClass: KClass<User>
-        get() = User::class
+    override val domainClass: KClass<UserEntity>
+        get() = UserEntity::class
 
-    fun register(email: String, password: String, name: String): User {
-        val user = User(email, password, name, Date())
+    fun register(input: UserInput): UserEntity {
+        val user = UserEntity()
+
+        user.email = input.email
+        user.password = input.password
+        user.name = input.name
+
+        user.birth = Date()
+        user.salt = RandomStringUtils.randomAscii(64)
 
         save(user)
 
