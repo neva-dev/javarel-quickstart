@@ -5,6 +5,7 @@ buildscript {
 apply plugin: 'neva.osgi-container'
 
 defaultTasks 'createOsgiContainer'
+description = 'Sample application that can be used as quick start for using Javarel Framework'
 
 allprojects {
     group 'com.neva.javarel'
@@ -18,10 +19,6 @@ allprojects {
         mavenCentral()
         jcenter()
     }
-}
-
-ext {
-    javarelVersion = '1.0.0.ALPHA'
 }
 
 dependencies {
@@ -38,10 +35,11 @@ osgiContainer {
     javaArg('-Dderby.system.home=db')
     exclude([
             'slf4j-api-1.7.7*',
+            'slf4j-log4j12-1.7.6*',
             'xml-apis-1.3*',
+            'org.apache.felix.scr.annotations-*',
             'antlr',
             'animal-sniffer-annotations',
-            'grizzly-httpservice-bundle*',
             'kxml2',
             'xmlpull',
     ])
@@ -81,36 +79,6 @@ subprojects { subProject ->
                 name subProject.description
                 instruction 'Bundle-Category', 'quickstart'
             }
-        }
-
-        dependencies {
-            osgiBundle 'org.jetbrains.kotlin:kotlin-osgi-bundle:1.0.4'
-
-            osgiBundle 'org.osgi:org.osgi.enterprise:5.0.0'
-            osgiBundle 'org.osgi:org.osgi.core:5.0.0'
-
-            osgiBundle 'org.apache.felix:org.apache.felix.scr:2.0.2'
-            compile 'org.apache.felix:org.apache.felix.scr.annotations:1.9.12'
-
-            osgiBundle 'javax.servlet:javax.servlet-api:3.0.1'
-            osgiBundle 'com.google.guava:guava:19.0'
-            osgiBundle 'com.google.code.gson:gson:2.6.2'
-            osgiBundle 'commons-io:commons-io:2.4'
-            osgiBundle 'commons-fileupload:commons-fileupload:1.3.1'
-            osgiBundle 'org.json:json:20160212'
-            osgiBundle 'org.apache.commons:commons-lang3:3.4'
-            osgiBundle 'org.slf4j:slf4j-api:1.7.6'
-            osgiBundle 'org.slf4j:slf4j-log4j12:1.7.6'
-
-            osgiBundle "com.neva.javarel:javarel-foundation:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-resource:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-communication-rest:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-presentation-asset:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-presentation-view:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-presentation-view-pebble:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-storage:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-processing-scheduler:$javarelVersion"
-            osgiBundle "com.neva.javarel:javarel-security-auth:$javarelVersion"
         }
     }
 }

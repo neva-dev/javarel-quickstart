@@ -17,3 +17,7 @@ jar {
         instruction 'Rest-Route-Alias', 'core=com.neva.javarel.app.core'
     }
 }
+
+dependencies {
+    osgiBundle "com.neva.javarel:javarel-integration:1.0.0.ALPHA"
+}

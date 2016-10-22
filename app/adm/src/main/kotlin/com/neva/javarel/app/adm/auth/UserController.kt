@@ -1,7 +1,7 @@
 package com.neva.javarel.app.adm.auth
 
-import com.neva.javarel.app.core.rest.Controller
 import com.neva.javarel.communication.rest.api.Redirect
+import com.neva.javarel.integration.api.rest.Controller
 import com.neva.javarel.security.auth.api.Credentials
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
