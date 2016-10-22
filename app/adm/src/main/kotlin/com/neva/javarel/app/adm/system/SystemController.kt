@@ -1,6 +1,6 @@
 package com.neva.javarel.app.adm.system
 
-import com.neva.javarel.integration.api.rest.Controller
+import com.neva.javarel.framework.api.rest.Controller
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces

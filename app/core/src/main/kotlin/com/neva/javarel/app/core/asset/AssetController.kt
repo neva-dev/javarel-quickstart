@@ -2,7 +2,7 @@ package com.neva.javarel.app.core.asset
 
 import com.neva.javarel.communication.rest.api.Route
 import com.neva.javarel.presentation.asset.api.Asset
-import com.neva.javarel.integration.api.rest.Controller
+import com.neva.javarel.framework.api.rest.Controller
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam

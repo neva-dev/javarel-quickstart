@@ -19,5 +19,5 @@ jar {
 }
 
 dependencies {
-    osgiBundle "com.neva.javarel:javarel-integration:1.0.0.ALPHA"
+    osgiBundle "com.neva.javarel:javarel-framework:1.0.0.ALPHA"
 }
