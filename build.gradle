@@ -2,9 +2,9 @@ buildscript {
     apply from: project.rootProject.relativePath('buildscript.gradle'), to: buildscript
 }
 
-defaultTasks 'createOsgiContainer'
-
 apply plugin: 'neva.osgi-container'
+
+defaultTasks 'createOsgiContainer'
 
 allprojects {
     group 'com.neva.javarel'
@@ -52,7 +52,7 @@ subprojects { subProject ->
     plugins.withId 'kotlin', {
         // testCompile group: 'junit', name: 'junit', version: '4.11'
 
-        jar.archiveName = "quickstart-${subProject.name}-${subProject.version}.jar"
+        jar.baseName = "quickstart-${subProject.name}-${subProject.version}"
         sourceCompatibility = 1.7
         targetCompatibility = 1.7
 
@@ -62,6 +62,17 @@ subprojects { subProject ->
 
         compileJava compileOptions
         compileTestJava compileOptions
+    }
+
+    plugins.withId 'maven-publish', {
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    artifactId jar.baseName
+                    from components.java
+                }
+            }
+        }
     }
 
     plugins.withId 'neva.osgi-module', {
