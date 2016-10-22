@@ -20,16 +20,13 @@ Simplest example. Let's say hello to world!
 
 Now, get closer into automatic serialization. Let's create a simple controller which will serve Javarel info at path '/javarel'.
 
-    @Path("/")
-    class FrontController {
-   
-        @Path("/javarel")
-        @GET
-        @Produces(MediaType.APPLICATION_JSON)
-        fun getJavarel(): Any {
-            return JavarelConstants.asMap()
-        }
-        
+    @Path("/javarel")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getVersion(): Any {
+        return mapOf(
+                "version" to JavarelConstants.VERSION
+        )
     }
 
 ## Binders

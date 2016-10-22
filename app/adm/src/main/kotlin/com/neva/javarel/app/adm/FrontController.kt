@@ -24,7 +24,6 @@ class FrontController : Controller() {
     @Path("/adm")
     @GET
     @Route(name = "home")
-
     fun getHome(): Response {
         if (guard.check) {
             return Redirect.to(urlGenerator.action(SystemController::getDashboard))
@@ -37,7 +36,11 @@ class FrontController : Controller() {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun getVersion(): Any {
-        return JavarelConstants.asMap()
+        return mapOf(
+                "productName" to JavarelConstants.PRODUCT_NAME,
+                "vendorName" to JavarelConstants.VENDOR_NAME,
+                "version" to JavarelConstants.VERSION
+        )
     }
 
 }
