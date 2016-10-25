@@ -8,7 +8,7 @@
         <h1>User <small>&mdash; login</h1>
     </div>
 
-    <form action="javascript:" method="post">
+    <form action="{{ route(action='adm.auth.UserController.postLogin') }}" method="POST">
         <div class="form-group">
             <label for="user-username">Username or e-mail</label>
             <input id="user-username" name="user[username]"" type="email" class="form-control" placeholder="E-mail">

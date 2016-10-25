@@ -34,7 +34,7 @@ Now, get closer into automatic serialization. Let's create a simple controller w
 Whenever your controller is being accessed, we want to use some services.
 
 1. Non-request scoped services can be just standard OSGi services.
-2. Request scoped services must be provider by binder factories.
+2. Request scoped services must be provided by binder factories.
 
 
     @Binder
@@ -102,13 +102,14 @@ Servlet:
     )
     class SampleServlet : HttpServlet() {
 
-        override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
-            resp.writer.write("Hello World!")
+        override fun doGet(request: HttpServletRequest, respone: HttpServletResponse) {
+            response.writer.write("Hello World!")
         }
 
     }
     
-**Warning!** Be sure that your alias begins with one of prefixes defined in OSGi configuration named "Javarel REST Configuration".
+**Warning!** Be sure that your alias begins with one of prefixes defined in OSGi configuration named "Javarel REST Configuration". 
+Default convention is to register 3rd party servlets under '/bin' prefix.
     
 Filter:
     
@@ -124,7 +125,7 @@ Filter:
             // nothing to do
         }
     
-        override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
+        override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain?) {
             // ...
         }
         

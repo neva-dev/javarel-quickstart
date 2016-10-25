@@ -3,7 +3,7 @@ package com.neva.javarel.app.adm.auth
 import com.neva.javarel.security.auth.api.Authenticable
 import com.neva.javarel.security.auth.api.AuthenticableProvider
 import com.neva.javarel.security.auth.api.Credentials
-import com.neva.javarel.storage.api.DatabaseAdmin
+import com.neva.javarel.storage.database.api.DatabaseAdmin
 import org.apache.felix.scr.annotations.Component
 import org.apache.felix.scr.annotations.Reference
 import org.apache.felix.scr.annotations.Service

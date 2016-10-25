@@ -1,6 +1,6 @@
 package com.neva.javarel.app.adm.auth
 
-import com.neva.javarel.storage.api.repository.DomainRepository
+import com.neva.javarel.storage.database.api.repository.DomainRepository
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
 import javax.persistence.EntityManager
