@@ -10,16 +10,16 @@
 
     <form action="{{ route(action='adm.auth.UserController.postLogin') }}" method="POST">
         <div class="form-group">
-            <label for="user-username">Username or e-mail</label>
-            <input id="user-username" name="user[username]"" type="email" class="form-control" placeholder="E-mail">
+            <label for="user-principal">Username or e-mail</label>
+            <input id="user-principal" name="user.principal" type="text" class="form-control" placeholder="Username or e-mail">
         </div>
         <div class="form-group">
             <label for="user-password-">Password</label>
-            <input id="user-password" name="user[password]" type="password" class="form-control" placeholder="Password">
+            <input id="user-password" name="user.password" type="password" class="form-control" placeholder="Password">
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox"> Remember me
+                <input name="user.remember" type="checkbox"> Remember me
             </label>
         </div>
         <button type="submit" class="btn btn-default">Login</button>

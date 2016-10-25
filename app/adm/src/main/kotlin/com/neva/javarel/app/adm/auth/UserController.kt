@@ -2,7 +2,6 @@ package com.neva.javarel.app.adm.auth
 
 import com.neva.javarel.communication.rest.api.Redirect
 import com.neva.javarel.framework.api.rest.Controller
-import com.neva.javarel.security.auth.api.Credentials
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -31,12 +30,18 @@ class UserController : Controller() {
 
     @POST
     @Path("/login")
-    fun postLogin(): Response {
-        if (guard.attempt(Credentials())) {
-            return Redirect.to(urlGenerator.name("home"))
-        }
+    fun postLogin(@BeanParam credentials: UserCredentials): Response {
+        guard.attempt(credentials) // TODO On error redirect back with flashed input data
 
-        return Response.status(Response.Status.UNAUTHORIZED).build()
+        return Redirect.to(urlGenerator.name("home"))
+    }
+
+    @GET
+    @Path("/logout")
+    fun getLogout(): Response {
+        guard.logout()
+
+        return Redirect.to(urlGenerator.name("home"))
     }
 
     @GET
@@ -49,7 +54,7 @@ class UserController : Controller() {
     @POST
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
-    fun postRegister(@BeanParam input : UserInput): UserEntity {
+    fun postRegister(@BeanParam input: UserInput): UserEntity {
         return db.session { em ->
             val repo = UserRepository(em)
             val user = repo.register(input)
