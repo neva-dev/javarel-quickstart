@@ -1,6 +1,6 @@
 package com.neva.javarel.app.adm.auth
 
-import com.neva.javarel.security.auth.api.Auth
+import com.neva.javarel.security.auth.api.AuthConfig
 import com.neva.javarel.security.auth.api.Credentials
 import com.neva.javarel.security.auth.api.PrincipalCredentials
 import com.neva.javarel.security.auth.api.Realm
@@ -28,7 +28,7 @@ class UserRealm : Realm {
     private lateinit var db: DatabaseAdmin
 
     @Reference
-    private lateinit var auth: Auth
+    private lateinit var authConfig : AuthConfig
 
     @Activate
     protected fun activate() {
@@ -38,12 +38,12 @@ class UserRealm : Realm {
     private fun createGuestIfNotExists() {
         db.session {
             val repo = UserRepository(it)
-            var guest = repo.findByPrincipal(auth.guestPrincipal)
+            var guest = repo.findByPrincipal(authConfig.guestPrincipal)
             if (guest == null) {
                 val input = UserInput(
                         "guest@neva.zone",
                         RandomStringUtils.randomAlphanumeric(32),
-                        auth.guestPrincipal,
+                        authConfig.guestPrincipal,
                         "Guest User"
                 )
                 guest = repo.register(input)
