@@ -5,6 +5,7 @@ import com.neva.javarel.presentation.view.api.View
 import com.neva.javarel.resource.api.ResourceNotFoundException
 import com.neva.javarel.resource.api.ResourceResolver
 import org.apache.commons.lang3.exception.ExceptionUtils
+import org.jvnet.hk2.annotations.Optional
 import org.slf4j.LoggerFactory
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.core.MediaType
@@ -16,6 +17,7 @@ import javax.ws.rs.ext.Provider
 class ThrowableMapper : ExceptionMapper<Throwable> {
 
     @Uses
+    @Optional
     private var resolver: ResourceResolver? = null
 
     companion object {
