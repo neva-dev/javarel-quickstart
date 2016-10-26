@@ -1,5 +1,6 @@
 package com.neva.javarel.app.adm.auth
 
+import com.neva.javarel.security.auth.api.PrincipalPasswordCredentials
 import com.neva.javarel.storage.database.api.repository.DomainRepository
 import org.apache.commons.lang3.RandomStringUtils
 import java.util.*
@@ -29,7 +30,7 @@ class UserRepository(em: EntityManager) : DomainRepository<UserEntity, Long>(em)
         return user
     }
 
-    fun findByCredentials(credentials: UserCredentials): UserEntity? {
+    fun findByCredentials(credentials: PrincipalPasswordCredentials): UserEntity? {
         try {
             return createQuery({ builder, criteria, root ->
                 criteria.where(builder.or(

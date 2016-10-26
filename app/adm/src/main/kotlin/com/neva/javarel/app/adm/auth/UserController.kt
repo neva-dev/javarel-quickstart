@@ -2,6 +2,7 @@ package com.neva.javarel.app.adm.auth
 
 import com.neva.javarel.communication.rest.api.Redirect
 import com.neva.javarel.framework.api.rest.Controller
+import com.neva.javarel.security.auth.api.PrincipalPasswordCredentials
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -30,8 +31,10 @@ class UserController : Controller() {
 
     @POST
     @Path("/login")
-    fun postLogin(@BeanParam credentials: UserCredentials): Response {
-        guard.attempt(credentials) // TODO On error redirect back with flashed input data
+    fun postLogin(@FormParam("user.principal") principal: String,
+                  @FormParam("user.password") password: String,
+                  @FormParam("user.remember") remember: Boolean): Response {
+        guard.attempt(PrincipalPasswordCredentials(principal, password, remember))
 
         return Redirect.to(urlGenerator.name("home"))
     }
