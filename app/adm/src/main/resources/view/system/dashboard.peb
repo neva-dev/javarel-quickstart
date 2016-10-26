@@ -5,7 +5,7 @@
 <div class="jumbotron">
     <div class="container-fluid">
         <h1 class="display-3">Hello {{ guard.user.displayName }}!</h1>
-        <p>This is a quickstart application based on <a href="https://github.com/neva-dev/javarel-framework" target="_blank">Javarel Framework</a>.</p>
+        <p>This is a <a href="https://github.com/neva-dev/javarel-quickstart" target="_blank">Quickstart Application</a> based on <a href="https://github.com/neva-dev/javarel-framework" target="_blank">Javarel Framework</a>.</p>
         <p><a class="btn btn-primary btn-lg" href="{{ route(action='adm.system.SystemController.getFrame', params={'#': '/bin/console/configMgr'}) }}" role="button">Configuration &raquo;</a></p>
     </div>
 </div>
@@ -23,7 +23,7 @@
             <h2><i class="fa fa-fighter-jet"></i> Blazing fast</h2>
             <p>
                 Designed to be as much lightweight as it is possible. Reduced abstraction layers and tons of hard to learn API's.
-                Inspired by PHP <a href="https://laravel.com" target="_blank">Laravel Framework</a>, but it is more maintainable and faster due to statically compiled language &mdash; Kotlin.
+                Inspired by PHP <a href="https://laravel.com" target="_blank">Laravel Framework</a>, but it is more maintainable and faster due to statically compiled language &mdash; <a href="https://kotlinlang.org" target="_blank">Kotlin</a>.
             </p>
         </div>
         <div class="col-md-4">
