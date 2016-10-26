@@ -11,7 +11,7 @@ open class UserEntity : Authenticable {
     companion object {
         const val ID_COLUMN = "id"
         const val EMAIL_COLUMN = "email"
-        const val NAME_COLUMN = "name"
+        const val PRINCIPAL_COLUMN = "principal"
         const val PASSWORD_COLUMN = "password"
     }
 
@@ -29,8 +29,8 @@ open class UserEntity : Authenticable {
     @Column(length = 80, nullable = false)
     lateinit var salt: String
 
-    @Column(name = NAME_COLUMN, nullable = false, unique = true)
-    lateinit var name: String
+    @Column(name = PRINCIPAL_COLUMN, nullable = false, unique = true)
+    override lateinit var principal: String
 
     @Column(nullable = true)
     var nick: String? = null
@@ -42,14 +42,11 @@ open class UserEntity : Authenticable {
         // default constructor
     }
 
-    override val principal: String
-        get() = name
+    val displayName: String
+        get() = if (!nick.isNullOrBlank()) nick!! else principal
 
     override fun toString(): String {
-        return "UserEntity(id=$id, email='$email', name='$name', nick=$nick, birth=$birth)"
+        return "UserEntity(id=$id, email='$email', principal='$principal', nick=$nick, birth=$birth)"
     }
-
-    val displayName: String
-        get() = if (!nick.isNullOrBlank()) nick!! else name
 
 }

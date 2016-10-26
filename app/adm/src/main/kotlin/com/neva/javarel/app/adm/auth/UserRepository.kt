@@ -19,7 +19,7 @@ class UserRepository(em: EntityManager) : DomainRepository<UserEntity, Long>(em)
 
         user.email = input.email
         user.password = input.password
-        user.name = input.name
+        user.principal = input.principal
         user.nick = input.nick
 
         user.birth = Date()
@@ -35,7 +35,7 @@ class UserRepository(em: EntityManager) : DomainRepository<UserEntity, Long>(em)
             return createQuery({ builder, criteria, root ->
                 criteria.where(builder.or(
                         builder.equal(root.get<Any>(UserEntity.EMAIL_COLUMN), credentials.principal),
-                        builder.equal(root.get<Any>(UserEntity.NAME_COLUMN), credentials.principal)
+                        builder.equal(root.get<Any>(UserEntity.PRINCIPAL_COLUMN), credentials.principal)
                 ))
                 criteria.where(builder.equal(root.get<Any>(UserEntity.PASSWORD_COLUMN), credentials.password))
 
@@ -49,7 +49,7 @@ class UserRepository(em: EntityManager) : DomainRepository<UserEntity, Long>(em)
     }
 
     fun findByPrincipal(principal: String): UserEntity? {
-        return findOneBy(mapOf(UserEntity.NAME_COLUMN to principal))
+        return findOneBy(mapOf(UserEntity.PRINCIPAL_COLUMN to principal))
     }
 
 }
