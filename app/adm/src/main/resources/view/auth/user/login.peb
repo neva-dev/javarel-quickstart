@@ -5,25 +5,27 @@
 <div class="container-fluid">
 
     <div class="page-header">
-        <h1>User <small>&mdash; login</h1>
+        <h1>User <small>&mdash; login</small></h1>
     </div>
 
-    <form action="{{ route(action='adm.auth.UserController.postLogin') }}" method="POST">
-        <div class="form-group">
-            <label for="user-principal">Username or e-mail</label>
-            <input id="user-principal" name="user.principal" type="text" class="form-control" placeholder="Username or e-mail">
-        </div>
-        <div class="form-group">
-            <label for="user-password-">Password</label>
-            <input id="user-password" name="user.password" type="password" class="form-control" placeholder="Password">
-        </div>
-        <div class="checkbox">
-            <label>
-                <input name="user.remember" type="checkbox"> Remember me
-            </label>
-        </div>
-        <button type="submit" class="btn btn-default">Login</button>
-    </form>
+    <div class="row">
+        <form class="col-md-4" action="{{ route(action='adm.auth.UserController.postLogin') }}" method="POST">
+            <div class="form-group">
+                <label for="user-principal">Username or e-mail</label>
+                <input id="user-principal" name="user.principal" type="text" class="form-control" placeholder="Username or e-mail">
+            </div>
+            <div class="form-group">
+                <label for="user-password-">Password</label>
+                <input id="user-password" name="user.password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input name="user.remember" type="checkbox"> Remember me
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Login</button>
+        </form>
+    </div>
 </div>
 
 {% endblock %}
