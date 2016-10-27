@@ -1,11 +1,8 @@
 package com.neva.javarel.app.adm.error
 
-import com.neva.javarel.communication.rest.api.Uses
-import com.neva.javarel.presentation.view.api.View
+import com.neva.javarel.framework.api.rest.Controller
 import com.neva.javarel.resource.api.ResourceNotFoundException
-import com.neva.javarel.resource.api.ResourceResolver
 import org.apache.commons.lang3.exception.ExceptionUtils
-import org.jvnet.hk2.annotations.Optional
 import org.slf4j.LoggerFactory
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.core.MediaType
@@ -14,11 +11,8 @@ import javax.ws.rs.ext.ExceptionMapper
 import javax.ws.rs.ext.Provider
 
 @Provider
-class ThrowableMapper : ExceptionMapper<Throwable> {
+class ThrowableMapper : Controller(), ExceptionMapper<Throwable> {
 
-    @Uses
-    @Optional
-    private var resolver: ResourceResolver? = null
 
     companion object {
         val LOG = LoggerFactory.getLogger(ThrowableMapper::class.java)
@@ -35,12 +29,8 @@ class ThrowableMapper : ExceptionMapper<Throwable> {
                 }
                 else -> {
                     LOG.error("Request error", causeException)
-                    if (resolver != null) {
-                        return respondView(causeException, "bundle://adm/view/error/throwable.peb")
 
-                    }
-
-                    return respondFallback(causeException)
+                    return respondView(causeException, "bundle://adm/view/error/throwable.peb")
                 }
             }
         } catch (internalException: Throwable) {
@@ -50,8 +40,7 @@ class ThrowableMapper : ExceptionMapper<Throwable> {
     }
 
     private fun respondView(e: Throwable, uri: String): Response {
-        val html = resolver!!.findOrFail(uri)
-                .adaptTo(View::class)
+        val html = view(uri)
                 .with("message", ExceptionUtils.getRootCauseMessage(e))
                 .with("stackTrace", ExceptionUtils.getRootCauseStackTrace(e).joinToString("\n"))
                 .render()

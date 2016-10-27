@@ -4,12 +4,9 @@ import com.neva.javarel.app.adm.auth.UserController
 import com.neva.javarel.app.adm.system.SystemController
 import com.neva.javarel.communication.rest.api.Redirect
 import com.neva.javarel.communication.rest.api.Route
-import com.neva.javarel.foundation.api.JavarelConstants
 import com.neva.javarel.framework.api.rest.Controller
 import javax.ws.rs.GET
 import javax.ws.rs.Path
-import javax.ws.rs.Produces
-import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
 @Path("/")
@@ -30,17 +27,6 @@ class FrontController : Controller() {
         } else {
             return Redirect.to(urlGenerator.action(UserController::getLogin))
         }
-    }
-
-    @Path("/javarel")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getVersion(): Any {
-        return mapOf(
-                "productName" to JavarelConstants.PRODUCT_NAME,
-                "vendorName" to JavarelConstants.VENDOR_NAME,
-                "version" to JavarelConstants.VERSION
-        )
     }
 
 }
