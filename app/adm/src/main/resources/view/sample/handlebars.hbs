@@ -16,6 +16,15 @@
         <h1>Hello {{guard.user.displayName}}!</h1>
 
         <p>I am rendered using handlebars template.</p>
+        <p>Testing route helper, go home using:</p>
+
+        <ul>
+            <li><a href="{{ route 'name' 'home' }}">Named route</a></li>
+            <li><a href="{{ route 'action' 'adm.FrontController.getHome' }}">Action</a></li>
+            <li><a href="{{ route 'adm.FrontController.getHome' }}">Action (shorthand syntax)</a></li>
+        </ul>
+
+        <hr>
 
         <p>Below is a source template:</p>
         <pre>{{source}}</pre>
