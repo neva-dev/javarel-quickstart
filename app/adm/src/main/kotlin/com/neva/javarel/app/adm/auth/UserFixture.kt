@@ -11,17 +11,11 @@ import org.apache.felix.scr.annotations.Service
 @Service(Fixture::class)
 class UserFixture : Fixture {
 
-    companion object {
-        val ORDER = 100
-    }
-
     @Reference
     private lateinit var db: DatabaseAdmin
 
     @Reference
     private lateinit var authConfig: AuthConfig
-
-    override val order: Int = ORDER
 
     override fun install() {
         db.session {

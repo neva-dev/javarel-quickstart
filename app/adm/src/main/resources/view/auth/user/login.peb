@@ -12,7 +12,7 @@
         <form class="col-md-4" action="{{ route(action='adm.auth.UserController.postLogin') }}" method="POST">
             <div class="form-group">
                 <label for="user-principal">Username or e-mail</label>
-                <input id="user-principal" name="user.principal" type="text" class="form-control" placeholder="Username or e-mail">
+                <input id="user-principal" name="user.principal" type="text" class="form-control" placeholder="Username or e-mail" autofocus>
             </div>
             <div class="form-group">
                 <label for="user-password-">Password</label>
