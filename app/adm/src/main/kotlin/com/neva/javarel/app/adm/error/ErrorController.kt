@@ -11,11 +11,10 @@ import javax.ws.rs.ext.ExceptionMapper
 import javax.ws.rs.ext.Provider
 
 @Provider
-class ThrowableMapper : Controller(), ExceptionMapper<Throwable> {
-
+class ErrorController : Controller(), ExceptionMapper<Throwable> {
 
     companion object {
-        val LOG = LoggerFactory.getLogger(ThrowableMapper::class.java)
+        val LOG = LoggerFactory.getLogger(ErrorController::class.java)
     }
 
     override fun toResponse(causeException: Throwable): Response {
