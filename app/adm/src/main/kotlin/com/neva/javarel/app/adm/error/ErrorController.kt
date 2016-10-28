@@ -1,8 +1,12 @@
 package com.neva.javarel.app.adm.error
 
-import com.neva.javarel.framework.api.rest.Controller
+import com.neva.javarel.communication.rest.api.Uses
+import com.neva.javarel.presentation.view.api.View
 import com.neva.javarel.resource.api.ResourceNotFoundException
+import com.neva.javarel.resource.api.ResourceResolver
+import com.neva.javarel.security.auth.api.Guard
 import org.apache.commons.lang3.exception.ExceptionUtils
+import org.jvnet.hk2.annotations.Optional
 import org.slf4j.LoggerFactory
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.core.MediaType
@@ -11,7 +15,15 @@ import javax.ws.rs.ext.ExceptionMapper
 import javax.ws.rs.ext.Provider
 
 @Provider
-class ErrorController : Controller(), ExceptionMapper<Throwable> {
+class ErrorController : ExceptionMapper<Throwable> {
+
+    @Uses
+    @Optional
+    private var resolver: ResourceResolver? = null
+
+    @Uses
+    @Optional
+    private var guard: Guard? = null
 
     companion object {
         val LOG = LoggerFactory.getLogger(ErrorController::class.java)
@@ -24,22 +36,29 @@ class ErrorController : Controller(), ExceptionMapper<Throwable> {
                 is ResourceNotFoundException -> {
                     LOG.debug("Resource not found", causeException)
 
-                    return respondView(causeException, "bundle://adm/view/error/not-found.peb")
+                    return view(causeException, "bundle://adm/view/error/not-found.peb")
                 }
                 else -> {
                     LOG.error("Request error", causeException)
 
-                    return respondView(causeException, "bundle://adm/view/error/throwable.peb")
+                    return view(causeException, "bundle://adm/view/error/throwable.peb")
                 }
             }
         } catch (internalException: Throwable) {
             LOG.error("Internal error occurred while rendering request error view", internalException)
-            return respondFallback(causeException)
+
+            return text(causeException)
         }
     }
 
-    private fun respondView(e: Throwable, uri: String): Response {
-        val html = view(uri)
+    private fun view(e: Throwable, uri: String): Response {
+        if (resolver == null || guard == null) {
+            return text(e)
+        }
+
+        val html = resolver!!.findOrFail(uri)
+                .adaptTo(View::class)
+                .with("guard", guard!!)
                 .with("message", ExceptionUtils.getRootCauseMessage(e))
                 .with("stackTrace", ExceptionUtils.getRootCauseStackTrace(e).joinToString("\n"))
                 .render()
@@ -50,7 +69,7 @@ class ErrorController : Controller(), ExceptionMapper<Throwable> {
                 .build()
     }
 
-    private fun respondFallback(e: Throwable): Response {
+    private fun text(e: Throwable): Response {
         val text = """${ExceptionUtils.getRootCauseMessage(e)}
 ${ExceptionUtils.getRootCauseStackTrace(e).joinToString("\n")}"""
 

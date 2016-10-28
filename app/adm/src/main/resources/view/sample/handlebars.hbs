@@ -10,17 +10,25 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+        body {
+            margin: 1em;
+        }
+    </style>
   </head>
   <body>
     <div class="container">
+        <p><img src="{{ asset 'bundle://adm/asset/sample/handlebars.png' }}" class="img-rounded"></p>
+
         <h1>Hello {{guard.user.displayName}}!</h1>
 
         <p>I am rendered using handlebars template.</p>
         <p>Testing route helper, go home using:</p>
 
         <ul>
-            <li><a href="{{ route 'name' 'home' }}">Named route</a></li>
-            <li><a href="{{ route 'action' 'adm.FrontController.getHome' }}">Action</a></li>
+            <li><a href="{{ route 'name:home' }}">Named route</a></li>
+            <li><a href="{{ route 'action:adm.FrontController.getHome' }}">Action</a></li>
             <li><a href="{{ route 'adm.FrontController.getHome' }}">Action (shorthand syntax)</a></li>
         </ul>
 
@@ -28,6 +36,8 @@
 
         <p>Below is a source template:</p>
         <pre>{{source}}</pre>
+
+        <p>You can also mix view engines by using <em>render</em> helper.</p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
