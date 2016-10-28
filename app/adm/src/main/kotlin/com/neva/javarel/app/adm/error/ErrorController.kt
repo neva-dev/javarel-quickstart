@@ -1,6 +1,6 @@
 package com.neva.javarel.app.adm.error
 
-import com.neva.javarel.communication.rest.api.Uses
+import com.neva.javarel.communication.rest.api.Osgi
 import com.neva.javarel.presentation.view.api.View
 import com.neva.javarel.resource.api.ResourceNotFoundException
 import com.neva.javarel.resource.api.ResourceResolver
@@ -17,12 +17,12 @@ import javax.ws.rs.ext.Provider
 @Provider
 class ErrorController : ExceptionMapper<Throwable> {
 
-    @Uses
-    @Optional
+//    @Uses
+//    @Optional
     private var resolver: ResourceResolver? = null
 
-    @Uses
-    @Optional
+//    @Uses
+//    @Optional
     private var guard: Guard? = null
 
     companion object {

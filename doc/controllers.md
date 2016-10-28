@@ -20,71 +20,67 @@ Simplest example. Let's say hello to world!
 
 Now, get closer into automatic serialization. Let's create a simple controller which will serve Javarel info at path '/javarel'.
 
-    @Path("/javarel")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    fun getVersion(): Any {
-        return mapOf(
-                "version" to JavarelConstants.VERSION
-        )
-    }
+```
+@Path("/javarel")
+@GET
+@Produces(MediaType.APPLICATION_JSON)
+fun getVersion(): Any {
+    return mapOf(
+            "version" to JavarelConstants.VERSION
+    )
+}
+```
 
 ## Binders
 
 Whenever your controller is being accessed, we want to use some services.
 
-1. Non-request scoped services can be just standard OSGi services.
-2. Request scoped services must be provided by binder factories.
+1. Non-request scoped services can be just standard OSGi services. Annotate field with `@Osgi`.
+2. Request scoped services must be provided by bound manually. Annotate field with `@Inject` or sometimes by `@Context` (for injecting e.g `HttpHeaders`). For more details see [Jersey docs](https://jersey.java.net/documentation/latest/jaxrs-resources.html).
 
+```
+class SomeController {
 
-    @Binder
-    class GuardProvider : AbstractBinder<Guard>() {
+    @Osgi
+    protected lateinit var resourceResolver: ResourceResolver
+    
+    @Inject
+    protected lateinit var guard: Guard
 
-        @Uses
-        private lateinit var auth: AuthenticableProvider
+}
+```
 
-        @Context
-        private lateinit var request: HttpServletRequest
+To bind request-scoped service to an interface, implement `AbstractBinder` and annotate that class with `@Binder` to get it automatically registered.
 
-        override fun configure() {
-            bindPerRequest(Guard::class)
-        }
+```
+@Binder
+class AuthBinder : AbstractBinder() {
 
-        override fun provide(): Guard {
-            return RequestGuard(request, auth)
-        }
-
+    override fun configure() {
+        bind(SessionGuard::class.java).to(Guard::class.java).`in`(RequestScoped::class.java)
+        bind(RequestSession::class.java).to(Session::class.java).`in`(RequestScoped::class.java)
     }
 
-Both types of services can be injected in the same way, simply by using `@Uses` annotation.
-
-
-    class SomeController {
-
-        @Uses
-        protected lateinit var resourceResolver: ResourceResolver
-
-        @Uses
-        protected lateinit var guard: Guard
-
-    }
-
+}
+```
 
 ## Providers
 
 Use JAX-RS `@Provider` annotation to extend REST application. To cover e.g exception handling, just write above.
 
-    @Provider
-    class ThrowableMapper : ExceptionMapper<Throwable> {
-    
-        override fun toResponse(e: Throwable): Response {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                            .entity("Error occurred! ${e.message}")
-                            .type(MediaType.TEXT_PLAIN)
-                            .build()
-        }
-        
+```
+@Provider
+class ThrowableMapper : ExceptionMapper<Throwable> {
+
+    override fun toResponse(e: Throwable): Response {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("Error occurred! ${e.message}")
+                        .type(MediaType.TEXT_PLAIN)
+                        .build()
     }
+    
+}
+```
 
 In the same way JSON and XML serialization is being registered. See [explanation](http://stackoverflow.com/a/13557596).
 
@@ -95,43 +91,46 @@ Just register new services under correct interface.
 
 Servlet:
 
-    @Service(Servlet::class)
-    @Component(immediate = true)
-    @Properties(
-            Property(name = "alias", value = "/bin/sample")
-    )
-    class SampleServlet : HttpServlet() {
+```
+@Service(Servlet::class)
+@Component(immediate = true)
+@Properties(
+        Property(name = "alias", value = "/bin/sample")
+)
+class SampleServlet : HttpServlet() {
 
-        override fun doGet(request: HttpServletRequest, respone: HttpServletResponse) {
-            response.writer.write("Hello World!")
-        }
-
+    override fun doGet(request: HttpServletRequest, respone: HttpServletResponse) {
+        response.writer.write("Hello World!")
     }
+
+}
+```
     
 **Warning!** Be sure that your alias begins with one of prefixes defined in OSGi configuration named "Javarel REST Configuration". 
 Default convention is to register 3rd party servlets under '/bin' prefix.
     
 Filter:
+  
+```
+@Service(Filter::class)
+@Component(immediate = true)
+@Properties(
+        Property(name = "pattern", value = ".*")
+        Property(name = "service.ranking", value = "10")
+)
+class SampleFilter : Filter {
     
-    @Service(Filter::class)
-    @Component(immediate = true)
-    @Properties(
-            Property(name = "pattern", value = ".*")
-            Property(name = "service.ranking", value = "10")
-    )
-    class SampleFilter : Filter {
-        
-        override fun init(filterConfig: FilterConfig?) {
-            // nothing to do
-        }
-    
-        override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain?) {
-            // ...
-        }
-        
-        override fun destroy() {
-            // nothing to do
-        }
-        
+    override fun init(filterConfig: FilterConfig?) {
+        // nothing to do
     }
 
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain?) {
+        // ...
+    }
+    
+    override fun destroy() {
+        // nothing to do
+    }
+    
+}
+```
