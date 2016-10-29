@@ -16,7 +16,7 @@
             <h2><i class="fa fa-suitcase"></i> Enterprise ready</h2>
             <p>
                 <a href="https://www.osgi.org" target="_blank">OSGi technology</a> allows to create powerful, modular, scalable multi-purpose applications.
-                Take best from monolith and microservice oriented architectures.
+                Take best from monolith and microservice oriented architectures. Treat bundle as microservice and communicate via exposed service component interfaces.
             </p>
         </div>
         <div class="col-md-4">
