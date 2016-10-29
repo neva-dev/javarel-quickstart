@@ -43,7 +43,7 @@ class ExceptionMapper : ThrowableExceptionMapper() {
 
     private fun toView(e: Throwable, uri: String): Response {
         if (resolver == null || guard == null) {
-            return text(e)
+            return toText(e)
         }
 
         val html = resolver!!.findOrFail(uri)
