@@ -18,7 +18,7 @@ Simplest example. Let's say hello to world!
         
     }
 
-Now, get closer into automatic serialization. Let's create a simple controller which will serve Javarel info at path '/javarel'.
+Now, get closer into automatic serialization. Let's create a simple controller which will serve Javarel version as JSON at path '/javarel'.
 
 ```
 @Path("/javarel")
@@ -36,7 +36,7 @@ fun getVersion(): Any {
 Whenever your controller is being accessed, we want to use some services.
 
 1. Non-request scoped services can be just standard OSGi services. Annotate field with `@Osgi`.
-2. Request scoped services must be provided by bound manually. Annotate field with `@Inject` or sometimes by `@Context` (for injecting e.g `HttpHeaders`). For more details see [Jersey docs](https://jersey.java.net/documentation/latest/jaxrs-resources.html).
+2. Request scoped services must be bound manually. Annotate field with `@Inject` or sometimes by `@Context` (for injecting e.g `HttpHeaders`). For more details see [Jersey docs](https://jersey.java.net/documentation/latest/jaxrs-resources.html).
 
 ```
 class SomeController {
@@ -50,15 +50,15 @@ class SomeController {
 }
 ```
 
-To bind request-scoped service to an interface, implement `AbstractBinder` and annotate that class with `@Binder` to get it automatically registered.
+To bind request-scoped service to an interface, extend `AbstractBinder` and annotate that class with `@Binder` to get it automatically registered.
 
 ```
 @Binder
 class AuthBinder : AbstractBinder() {
 
     override fun configure() {
-        bind(SessionGuard::class.java).to(Guard::class.java).`in`(RequestScoped::class.java)
-        bind(RequestSession::class.java).to(Session::class.java).`in`(RequestScoped::class.java)
+        bindRequestScoped(SessionGuard::class, Guard::class)
+        bindRequestScoped(RequestSession::class, Session::class)
     }
 
 }
@@ -66,20 +66,27 @@ class AuthBinder : AbstractBinder() {
 
 ## Providers
 
-Use JAX-RS `@Provider` annotation to extend REST application. To cover e.g exception handling, just write above.
+Use JAX-RS `@Provider` annotation to extend REST application. To cover e.g exception handling, extend fail-safe implementation of mapper by above:
 
 ```
 @Provider
-class ThrowableMapper : ExceptionMapper<Throwable> {
+class ExceptionMapper : ThrowableExceptionMapper() {
 
-    override fun toResponse(e: Throwable): Response {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("Error occurred! ${e.message}")
-                        .type(MediaType.TEXT_PLAIN)
-                        .build()
+    @Osgi
+    @Optional
+    private var resolver: ResourceResolver? = null
+
+    override fun map(causeException: Throwable) : Response {
+        when (causeException) {
+            is NotFoundException,
+            is ResourceNotFoundException -> {
+                // handle 404
+            }
+            else -> {
+                // handle error by sending e-mail, logging etc
+            }
+        }
     }
-    
-}
 ```
 
 In the same way JSON and XML serialization is being registered. See [explanation](http://stackoverflow.com/a/13557596).
@@ -89,7 +96,7 @@ In the same way JSON and XML serialization is being registered. See [explanation
 If you really need to use old servlet API to register your endpoint you can use [whiteboard pattern](http://felix.apache.org/documentation/subprojects/apache-felix-http-service.html). 
 Just register new services under correct interface.
 
-Servlet:
+### Servlet
 
 ```
 @Service(Servlet::class)
@@ -109,7 +116,7 @@ class SampleServlet : HttpServlet() {
 **Warning!** Be sure that your alias begins with one of prefixes defined in OSGi configuration named "Javarel REST Configuration". 
 Default convention is to register 3rd party servlets under '/bin' prefix.
     
-Filter:
+### Filter
   
 ```
 @Service(Filter::class)
