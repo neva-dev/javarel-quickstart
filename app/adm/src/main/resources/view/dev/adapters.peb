@@ -26,13 +26,17 @@
                         <table class="table table-clear">
                             {% for adapter in entry.value %}
                                 <tr>
-                                    <th style="width: 50%">{{ adapter.class.name }}</th>
-                                    <td style="width: 50%">{{ adapter.sourceTypes | join('<br>') | raw }}<br></td>
+                                    <th style="width: 50%">{{ adapter.class.canonicalName }}</th>
+                                    <td style="width: 50%">
+                                        {% for sourceType in adapter.sourceTypes %}
+                                            {{ sourceType.qualifiedName }}<br>
+                                        {% endfor %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </table>
                     </td>
-                    <td>{{ entry.key }}</td>
+                    <td>{{ entry.key.qualifiedName }}</td>
                 </tr>
             {% endfor %}
             </tbody>
