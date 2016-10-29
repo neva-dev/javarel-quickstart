@@ -8,6 +8,7 @@ import com.neva.javarel.security.auth.api.Guard
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.jvnet.hk2.annotations.Optional
 import org.slf4j.LoggerFactory
+import javax.inject.Inject
 import javax.ws.rs.NotFoundException
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -17,12 +18,12 @@ import javax.ws.rs.ext.Provider
 @Provider
 class ErrorController : ExceptionMapper<Throwable> {
 
-//    @Uses
-//    @Optional
+    @Osgi
+    @Optional
     private var resolver: ResourceResolver? = null
 
-//    @Uses
-//    @Optional
+    @Inject
+    @Optional
     private var guard: Guard? = null
 
     companion object {
