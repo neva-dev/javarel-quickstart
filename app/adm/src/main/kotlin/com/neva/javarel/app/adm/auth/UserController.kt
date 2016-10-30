@@ -14,7 +14,7 @@ class UserController : Controller() {
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     fun getList(): List<UserEntity> {
-        return db.session { em ->
+        return dbAdmin.session { em ->
             val repo = UserRepository(em)
             val users = repo.findAll()
 
@@ -58,7 +58,7 @@ class UserController : Controller() {
     @Path("/register")
     @Produces(MediaType.APPLICATION_JSON)
     fun postRegister(@BeanParam input: UserInput): UserEntity {
-        return db.session { em ->
+        return dbAdmin.session { em ->
             val repo = UserRepository(em)
             val user = repo.register(input)
 

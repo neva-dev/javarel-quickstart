@@ -16,7 +16,7 @@ To retrieve or update your data use `DatabaseAdmin` service.
         @Path("/create")
         @Produces(MediaType.APPLICATION_JSON)
         fun getCreate(): User {
-            return db.session { em ->
+            return dbAdmin.session { em ->
                 val repo = UserRepository(em)
                 val user = User("foo.bar@example.com", "qwerty")
 
@@ -30,7 +30,7 @@ To retrieve or update your data use `DatabaseAdmin` service.
         @Path("/list")
         @Produces(MediaType.APPLICATION_JSON)
         fun getList(): List<User> {
-            return db.session { em ->
+            return dbAdmin.session { em ->
                 val repo = UserRepository(em)
                 val users = repo.findAll()
 
@@ -41,7 +41,7 @@ To retrieve or update your data use `DatabaseAdmin` service.
 
 Multiple databases can be used in one application. Just define named connections in OSGi configuration (_Javarel Storage - ... Connection_). Then you can write:
 
-    db.session("pgsql" { em ->
+    dbAdmin.session("pgsql" { em ->
         // ...
     }
 

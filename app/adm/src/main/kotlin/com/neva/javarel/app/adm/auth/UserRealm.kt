@@ -15,15 +15,15 @@ class UserRealm : BasicRealm() {
     }
 
     @Reference
-    private lateinit var db: DatabaseAdmin
+    private lateinit var dbAdmin: DatabaseAdmin
 
     override val priority: Int
         get() = PRIORITY
 
     override fun byCredentials(credentials: Credentials): UserEntity? {
         return when (credentials) {
-            is PrincipalPasswordCredentials -> db.session { UserRepository(it).findByCredentials(credentials) }
-            is PrincipalCredentials -> db.session { UserRepository(it).findByPrincipal(credentials.principal) }
+            is PrincipalPasswordCredentials -> dbAdmin.session { UserRepository(it).findByCredentials(credentials) }
+            is PrincipalCredentials -> dbAdmin.session { UserRepository(it).findByPrincipal(credentials.principal) }
             else -> null
         }
     }

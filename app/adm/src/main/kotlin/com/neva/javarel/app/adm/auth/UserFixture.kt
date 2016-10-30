@@ -12,13 +12,13 @@ import org.apache.felix.scr.annotations.Service
 class UserFixture : Fixture {
 
     @Reference
-    private lateinit var db: DatabaseAdmin
+    private lateinit var dbAdmin: DatabaseAdmin
 
     @Reference
     private lateinit var authConfig: AuthConfig
 
     override fun install() {
-        db.session {
+        dbAdmin.session {
             val repo = UserRepository(it)
 
             val guest = repo.findByPrincipal(authConfig.guest.principal)
