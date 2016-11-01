@@ -10,10 +10,16 @@ class Employee {
     @Id
     lateinit var id: ObjectId
 
-    val name: String
+    var name: String
 
     @Property("wage")
-    val salary: Int
+    var salary: Int
+
+    @Reference
+    var manager: Employee? = null
+
+    @Reference
+    val directReports: MutableList<Employee> = mutableListOf()
 
     constructor() {
         this.name = ""

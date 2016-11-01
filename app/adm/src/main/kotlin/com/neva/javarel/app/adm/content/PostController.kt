@@ -24,8 +24,8 @@ class PostController : Controller() {
         val pepe = Employee("Pepé Le Pew", 25000)
         ds.save(pepe)
 
-//        elmer.directReports!!.add(daffy)
-//        elmer.directReports!!.add(pepe)
+        elmer.directReports.add(daffy)
+        elmer.directReports.add(pepe)
 
         ds.save(elmer)
 
