@@ -19,7 +19,7 @@ class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, Post
             attachment.filename = input.attachmentDetails.fileName
             attachment.save()
 
-            post.attachmentId = attachment.id as ObjectId
+            post.attachmentId = (attachment.id as ObjectId).toHexString()
         }
 
         save(post)
