@@ -12,12 +12,16 @@ class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, Post
         post.title = input.title
         post.content = input.content
 
-        val attachment = base.fileStore.createFile(input.attachmentInput)
-        attachment.contentType = input.attachmentDetails.type
-        attachment.filename = input.attachmentDetails.fileName
-        attachment.save()
+        if (!input.attachmentDetails.fileName.isNullOrBlank()) {
+            val attachment = base.fileStore.createFile(input.attachmentInput)
+            attachment.contentType = input.attachmentDetails.type
+            attachment.filename = input.attachmentDetails.fileName
+            attachment.save()
 
-        post.attachmentId = (attachment.id as ObjectId).toString()
+            post.attachmentId = attachment.id as ObjectId
+        }
+
+        base.dataStore.save(post)
 
         return post
     }
