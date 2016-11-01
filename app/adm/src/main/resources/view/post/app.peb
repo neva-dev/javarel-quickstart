@@ -5,19 +5,40 @@
 
     <script type="text/javascript">
         $(function () {
+            Handlebars.registerHelper('formatDate', function(date) {
+                return moment(date).format('MMMM Do YYYY, h:mm:ss');
+            });
+
             var $list = $('.post-list');
             var $form = $('.post-form');
+            var $script = $('script', $list);
+
+            var tpl = Handlebars.compile($script.html());
+            $script.remove();
+
+            function render() {
+                $.ajax({
+                    method: 'GET',
+                    url: $form.data('listUrl'),
+                    success: function (posts) {
+                        $list.html(tpl({posts: posts}));
+                    },
+                    error: function () {
+                        alert('Cannot render posts properly due to internal server error.');
+                    }
+                });
+            }
 
             $form.on('submit', function () {
                 $.ajax({
-                    url: $form.attr('action'),
+                    url: $form.data('createUrl'),
                     data: new FormData(this),
                     contentType: false,
                     cache: false,
                     type: 'POST',
                     processData: false,
                     success: function () {
-                        location.reload();
+                        render();
                     },
                     error: function () {
                         alert('Cannot add post due to internal server error.');
@@ -26,8 +47,24 @@
 
                 return false;
             });
-        });
 
+            $list.delegate('.post-delete', 'click', function () {
+                var $link = $(this);
+
+                $.ajax({
+                    method: 'DELETE',
+                    url: $form.data('deleteUrl') + '?id=' + $link.data('id'),
+                    success: function () {
+                        render();
+                    },
+                    error: function () {
+                        alert('Cannot delete post due to internal server error.');
+                    }
+                });
+            });
+
+            render();
+        });
     </script>
 {% endblock %}
 
@@ -42,7 +79,10 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Add new post</h2>
-            <form class="post-form" action="{{ route(action='adm.post.PostController.postCreate') }}" method="POST" enctype="multipart/form-data">
+            <form class="post-form" method="POST" enctype="multipart/form-data" action="javascript:"
+                data-create-url="{{ route(action='adm.post.PostController.postCreate') }}"
+                data-list-url="{{ route(action='adm.post.PostController.getList') }}"
+                data-delete-url="{{ route(action='adm.post.PostController.deleteDelete') }}">
                 <div class="form-group">
                     <label for="post-title">Title</label>
                     <input id="post-title" name="post.title" type="text" class="form-control" placeholder="Title" autofocus>
@@ -60,22 +100,27 @@
         </div>
 
         <div class="col-md-6">
-            <h2>Posts <small>({{posts.size}})</small></h2>
-            <ul class="post-list">
-                {% for post in posts %}
-                    <li class="post">
-                        <h3>{{post.title}} <small class="pull-right">{{post.createdAt}}</small></h3>
+            <h2>Posts</h2>
 
-                        <p>{{post.content}}</p>
+            <div class="post-list">
+                {% verbatim %}
+                    <script type="text/x-handlebars-template">
+                        <ul>
+                            {{#posts}}
+                                <li class="post">
+                                    <h3>{{title}} <span class="pull-right"><small>{{formatDate createdAt}}</small> <a class="post-delete" data-id="{{id}}" href="javascript:">&times;</a></span></h3>
 
-                        {% if post.attachmentUri is not empty %}
-                            <p><a href="{{asset(post.attachmentUri)}}">Download attachment</a></p>
-                        {% endif %}
-                    </li>
-                {% else %}
-                    <p class="well">Not added yet.</p>
-                {% endfor %}
-            </ul>
+                                    <p>{{content}}</p>
+
+                                    {{#if attachmentPath}}
+                                        <p><a href="{{attachmentPath}}">Download attachment</a></p>
+                                    {{/if}}
+                                </li>
+                            {{/posts}}
+                        </ul>
+                    </script>
+                {% endverbatim %}
+            </div>
         </div>
     </div>
 </div>

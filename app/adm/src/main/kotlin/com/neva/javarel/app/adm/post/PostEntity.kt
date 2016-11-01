@@ -18,6 +18,6 @@ class PostEntity {
 
     val createdAt = Date()
 
-    var attachmentUri: String? = null
+    var attachmentPath: String? = null
 
 }

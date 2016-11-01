@@ -1,11 +1,13 @@
 package com.neva.javarel.app.adm.post
 
+import com.neva.javarel.communication.rest.api.UrlGenerator
+import com.neva.javarel.presentation.asset.api.AssetPath
 import com.neva.javarel.storage.repository.api.Repository
 import com.neva.javarel.storage.repository.api.RepositoryFileResource
 import com.neva.javarel.storage.repository.api.repository.DomainRepository
 import org.bson.types.ObjectId
 
-class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, PostEntity::class) {
+class PostRepository(base: Repository, private val urlGenerator: UrlGenerator) : DomainRepository<PostEntity>(base, PostEntity::class) {
 
     fun create(input: PostInput): PostEntity {
         val post = PostEntity()
@@ -29,7 +31,9 @@ class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, Post
 
     override fun lookup(entity: PostEntity) {
         if (entity.attachmentId != null) {
-            entity.attachmentUri = RepositoryFileResource.uri(base.connection.name, base.fileStore.bucketName, entity.attachmentId!!)
+            entity.attachmentPath = AssetPath(urlGenerator).generate(
+                    RepositoryFileResource.uri(base.connection.name, base.fileStore.bucketName, entity.attachmentId!!)
+            )
         }
     }
 
