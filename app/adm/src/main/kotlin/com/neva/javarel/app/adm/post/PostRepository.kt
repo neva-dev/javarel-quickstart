@@ -28,7 +28,9 @@ class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, Post
     }
 
     override fun lookup(entity: PostEntity) {
-        entity.attachmentUri = RepositoryFileResource.uri(base.connection.name, base.fileStore.bucketName, entity.attachmentId!!)
+        if (entity.attachmentId != null) {
+            entity.attachmentUri = RepositoryFileResource.uri(base.connection.name, base.fileStore.bucketName, entity.attachmentId!!)
+        }
     }
 
 }
