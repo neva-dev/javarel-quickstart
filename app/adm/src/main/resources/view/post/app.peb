@@ -1,5 +1,36 @@
 {% extends "bundle://adm/view/layout/master.peb" %}
 
+{% block body %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            var $list = $('.post-list');
+            var $form = $('.post-form');
+
+            $form.on('submit', function () {
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    type: 'POST',
+                    processData: false,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Cannot add post due to internal server error.');
+                    }
+                });
+
+                return false;
+            });
+        });
+
+    </script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container-fluid">
@@ -11,7 +42,7 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Add new post</h2>
-            <form action="{{ route(action='adm.post.PostController.postCreate') }}" method="POST" enctype="multipart/form-data">
+            <form class="post-form" action="{{ route(action='adm.post.PostController.postCreate') }}" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="post-title">Title</label>
                     <input id="post-title" name="post.title" type="text" class="form-control" placeholder="Title" autofocus>
@@ -30,7 +61,7 @@
 
         <div class="col-md-6">
             <h2>Posts <small>({{posts.size}})</small></h2>
-            <ul class="posts">
+            <ul class="post-list">
                 {% for post in posts %}
                     <li class="post">
                         <h3>{{post.title}} <small class="pull-right">{{post.createdAt}}</small></h3>
