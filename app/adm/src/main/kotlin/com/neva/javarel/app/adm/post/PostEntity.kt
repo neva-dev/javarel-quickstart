@@ -19,7 +19,6 @@ class PostEntity {
 
     val createdAt = Date()
 
-    val attachmentUri: String?
-        get() = if (attachmentId != null) "repository-file://default/fs/${attachmentId}" else null
+    var attachmentUri: String? = null
 
 }

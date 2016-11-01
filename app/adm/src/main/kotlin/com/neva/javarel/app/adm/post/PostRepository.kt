@@ -1,6 +1,7 @@
 package com.neva.javarel.app.adm.post
 
 import com.neva.javarel.storage.repository.api.Repository
+import com.neva.javarel.storage.repository.api.RepositoryFileResource
 import com.neva.javarel.storage.repository.api.repository.DomainRepository
 import org.bson.types.ObjectId
 
@@ -21,9 +22,13 @@ class PostRepository(base: Repository) : DomainRepository<PostEntity>(base, Post
             post.attachmentId = attachment.id as ObjectId
         }
 
-        base.dataStore.save(post)
+        save(post)
 
         return post
+    }
+
+    override fun lookup(entity: PostEntity) {
+        entity.attachmentUri = RepositoryFileResource.uri(base.connection.name, base.fileStore.bucketName, entity.attachmentId!!)
     }
 
 }
