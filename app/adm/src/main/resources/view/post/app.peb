@@ -34,10 +34,15 @@
                 {% for post in posts %}
                     <li class="post">
                         <h3>{{post.title}} <small class="pull-right">{{post.createdAt}}</small></h3>
+
                         <p>{{post.content}}</p>
+
+                        {% if post.attachmentUri is not empty %}
+                            <p><a href="{{asset(post.attachmentUri)}}">Download attachment</a></p>
+                        {% endif %}
                     </li>
                 {% else %}
-                    <p class="well">There is no posts added.</p>
+                    <p class="well">Not added yet.</p>
                 {% endfor %}
             </ul>
         </div>
