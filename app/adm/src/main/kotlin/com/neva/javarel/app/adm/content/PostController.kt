@@ -15,17 +15,17 @@ class PostController : Controller() {
     fun getCreate(): Any {
         val ds = repoAdmin.repository().dataStore
 
-        val elmer = Employee("Elmer Fudd", 50000.0)
+        val elmer = Employee("Elmer Fudd", 50000)
         ds.save(elmer)
 
-        val daffy = Employee("Daffy Duck", 40000.0)
+        val daffy = Employee("Daffy Duck", 40000)
         ds.save(daffy)
 
-        val pepe = Employee("Pepé Le Pew", 25000.0)
+        val pepe = Employee("Pepé Le Pew", 25000)
         ds.save(pepe)
 
-        elmer.directReports!!.add(daffy)
-        elmer.directReports!!.add(pepe)
+//        elmer.directReports!!.add(daffy)
+//        elmer.directReports!!.add(pepe)
 
         ds.save(elmer)
 

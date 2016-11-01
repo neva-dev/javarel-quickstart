@@ -1,5 +1,6 @@
 package com.neva.javarel.app.adm.content
 
+import org.bson.types.ObjectId
 import org.mongodb.morphia.annotations.*
 
 @Entity("employees")
@@ -7,24 +8,19 @@ import org.mongodb.morphia.annotations.*
 class Employee {
 
     @Id
-    private lateinit var id: String
+    lateinit var id: ObjectId
 
-    private var name: String? = null
-
-    @Reference
-    private var manager: Employee? = null
-
-    @Reference
-    var directReports: MutableList<Employee>? = mutableListOf()
+    val name: String
 
     @Property("wage")
-    private var salary: Double? = null
+    val salary: Int
 
     constructor() {
-        // intentionally empty
+        this.name = ""
+        this.salary = 0
     }
 
-    constructor(name: String, salary: Double){
+    constructor(name: String, salary: Int) {
         this.name = name
         this.salary = salary
     }
