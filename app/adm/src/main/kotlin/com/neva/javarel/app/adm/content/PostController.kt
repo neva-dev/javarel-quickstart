@@ -29,6 +29,14 @@ class PostController : Controller() {
 
         ds.save(elmer)
 
+        val fs = repoAdmin.repository().fileStore
+
+        val asset = asset("bundle://adm/asset/sample/handlebars.png")
+        val file = fs.createFile(asset.read())
+        file.contentType = asset.mimeType
+        file.filename = asset.descriptor.name
+        file.save()
+
         return elmer
     }
 
