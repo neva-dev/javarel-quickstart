@@ -8,8 +8,8 @@ import javax.ws.rs.core.Response
 @Path("/content/post")
 class PostController : Controller() {
 
-    private val repo: PostRepository by lazy {
-        PostRepository(repoAdmin.repository(), urlGenerator)
+    private val store: PostStore by lazy {
+        PostStore(storeAdmin.store(), urlGenerator)
     }
 
     @GET
@@ -17,7 +17,7 @@ class PostController : Controller() {
     @Produces(MediaType.TEXT_HTML)
     fun getApp(): Any {
         return view("bundle://adm/view/post/app.peb")
-                .with("posts", repo.all)
+                .with("posts", store.all)
                 .render()
     }
 
@@ -26,26 +26,26 @@ class PostController : Controller() {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     fun postCreate(@BeanParam input: PostInput): Any {
-        return repo.create(input)
+        return store.create(input)
     }
 
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     fun getList(): Any {
-        return repo.all
+        return store.all
     }
 
     @DELETE
     @Path("/delete")
     @Produces(MediaType.APPLICATION_JSON)
     fun deleteDelete(@QueryParam("id") id : String): Any {
-        val post = repo.find(id)
+        val post = store.find(id)
 
         if (post == null) {
             return Response.notModified().entity(post).build()
         } else {
-            repo.delete(post)
+            store.delete(post)
 
             return Response.ok().entity(post).build()
         }
