@@ -51,16 +51,20 @@
             $list.delegate('.post-delete', 'click', function () {
                 var $link = $(this);
 
-                $.ajax({
-                    method: 'DELETE',
-                    url: $form.data('deleteUrl') + '?id=' + $link.data('id'),
-                    success: function () {
-                        render();
-                    },
-                    error: function () {
-                        alert('Cannot delete post due to internal server error.');
-                    }
-                });
+                if (confirm("Are you sure want to delete this post?")) {
+                    $.ajax({
+                        method: 'DELETE',
+                        url: $form.data('deleteUrl').split('<id>').join($link.data('id')),
+                        success: function () {
+                            render();
+                        },
+                        error: function () {
+                            alert('Cannot delete post due to internal server error.');
+                        }
+                    });
+                }
+
+                return false;
             });
 
             render();
@@ -80,9 +84,9 @@
         <div class="col-md-6">
             <h2>Add new post</h2>
             <form class="post-form" method="POST" enctype="multipart/form-data" action="javascript:"
-                data-create-url="{{ route(action='adm.post.PostController.postCreate') }}"
-                data-list-url="{{ route(action='adm.post.PostController.getList') }}"
-                data-delete-url="{{ route(action='adm.post.PostController.deleteDelete') }}">
+                data-create-url="{{ route(action='adm.post.PostController.create') }}"
+                data-list-url="{{ route(action='adm.post.PostController.list') }}"
+                data-delete-url="{{ route(action='adm.post.PostController.delete', params={'id': '<id>'}) }}">
                 <div class="form-group">
                     <label for="post-title">Title</label>
                     <input id="post-title" name="post.title" type="text" class="form-control" placeholder="Title" autofocus>

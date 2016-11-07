@@ -15,7 +15,7 @@ class PostController : Controller() {
     @GET
     @Path("/")
     @Produces(MediaType.TEXT_HTML)
-    fun getApp(): Any {
+    fun app(): Any {
         return view("bundle://adm/view/post/app.peb")
                 .with("posts", store.all)
                 .render()
@@ -25,21 +25,21 @@ class PostController : Controller() {
     @Path("/create")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    fun postCreate(@BeanParam input: PostInput): Any {
+    fun create(@BeanParam input: PostInput): Any {
         return store.create(input)
     }
 
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getList(): Any {
+    fun list(): Any {
         return store.all
     }
 
     @DELETE
-    @Path("/delete")
+    @Path("/delete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun deleteDelete(@QueryParam("id") id : String): Any {
+    fun delete(@PathParam("id") id : String): Any {
         val post = store.find(id)
 
         if (post == null) {
