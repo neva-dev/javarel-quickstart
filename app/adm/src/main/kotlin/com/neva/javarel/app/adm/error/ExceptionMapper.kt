@@ -1,6 +1,6 @@
 package com.neva.javarel.app.adm.error
 
-import com.neva.javarel.communication.rest.api.Osgi
+import com.neva.javarel.foundation.api.injection.Osgi
 import com.neva.javarel.framework.api.rest.ThrowableExceptionMapper
 import com.neva.javarel.presentation.view.api.View
 import com.neva.javarel.resource.api.ResourceNotFoundException

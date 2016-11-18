@@ -1,7 +1,7 @@
 package com.neva.javarel.app.adm.dev
 
 import com.neva.javarel.communication.rest.api.RestRouter
-import com.neva.javarel.communication.rest.api.Osgi
+import com.neva.javarel.foundation.api.injection.Osgi
 import com.neva.javarel.foundation.api.adapting.AdaptingManager
 import com.neva.javarel.framework.api.rest.Controller
 import javax.ws.rs.GET
