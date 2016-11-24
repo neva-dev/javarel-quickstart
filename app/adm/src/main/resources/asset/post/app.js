@@ -5,17 +5,14 @@ $(function () {
 
     var $list = $('.post-list');
     var $form = $('.post-form');
-    var $script = $('script', $list);
-
-    var tpl = Handlebars.compile($script.html());
-    $script.remove();
+    var listTemplate = Handlebars.compile($("script[type='text/x-handlebars-template']", $list).html());
 
     function render() {
         $.ajax({
             method: 'GET',
             url: $form.data('listUrl'),
             success: function (posts) {
-                $list.html(tpl({posts: posts}));
+                $list.html(listTemplate({posts: posts}));
             },
             error: function () {
                 alert('Cannot render posts properly due to internal server error.');
@@ -33,6 +30,7 @@ $(function () {
             processData: false,
             success: function () {
                 render();
+                $form.reset();
             },
             error: function () {
                 alert('Cannot add post due to internal server error.');

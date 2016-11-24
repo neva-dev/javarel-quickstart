@@ -33,25 +33,26 @@
         </div>
 
         <div class="col-md-6">
-            <h2>Posts</h2>
-
             <div class="post-list">
                 {% verbatim %}
-                    <script type="text/x-handlebars-template">
-                        <ul>
-                            {{#posts}}
-                                <li class="post">
-                                    <h3>{{title}} <span class="pull-right"><small>{{formatDate createdAt}}</small> <a class="post-delete" data-id="{{id}}" href="javascript:">&times;</a></span></h3>
+                <script type="text/x-handlebars-template">
+                    <h2>Posts ({{posts.length}})</h2>
+                    <ul>
+                        {{#posts}}
+                            <li class="post">
+                                <h3>{{title}} <span class="pull-right"><small>{{formatDate createdAt}}</small> <a class="post-delete" data-id="{{id}}" href="javascript:">&times;</a></span></h3>
 
-                                    <p>{{content}}</p>
+                                <p>{{content}}</p>
 
-                                    {{#if attachmentPath}}
-                                        <p><a href="{{attachmentPath}}">Download attachment</a></p>
-                                    {{/if}}
-                                </li>
-                            {{/posts}}
-                        </ul>
-                    </script>
+                                {{#if attachmentPath}}
+                                    <p><a href="{{attachmentPath}}">Download attachment</a></p>
+                                {{/if}}
+                            </li>
+                        {{else}}
+                            <li>Lack of posts.</li>
+                        {{/posts}}
+                    </ul>
+                </script>
                 {% endverbatim %}
             </div>
         </div>
