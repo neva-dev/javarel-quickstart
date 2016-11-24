@@ -14,8 +14,15 @@
                         Javarel <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-brand">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
+                        {% for module in app.modules %}
+                            {% if module.options.type == 'application' %}
+                                <li>
+                                    <a href="{{ route(name=module.options.route) }}">
+                                        {{module.options.label}}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
                     </ul>
                 </li>
             </ul>
