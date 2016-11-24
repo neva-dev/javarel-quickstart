@@ -1,11 +1,11 @@
-package com.neva.javarel.app.adm.post
+package com.neva.javarel.app.sample.post
 
 import com.neva.javarel.framework.api.rest.Controller
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-@Path("/content/post")
+@Path("/sample/content/post")
 class PostController : Controller() {
 
     private val store: PostStore by lazy {
@@ -16,7 +16,7 @@ class PostController : Controller() {
     @Path("/")
     @Produces(MediaType.TEXT_HTML)
     fun app(): Any {
-        return view("bundle://adm/view/post/app.peb")
+        return view("bundle://sample/view/post/app.peb")
                 .with("posts", store.all)
                 .render()
     }

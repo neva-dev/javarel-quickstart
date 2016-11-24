@@ -1,4 +1,4 @@
-package com.neva.javarel.app.adm
+package com.neva.javarel.app.adm.structure
 
 import com.neva.javarel.app.adm.auth.UserController
 import com.neva.javarel.app.adm.system.SystemController
@@ -9,18 +9,12 @@ import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.core.Response
 
-@Path("/")
-class FrontController : Controller() {
+@Path("/adm")
+class AdmController : Controller() {
 
+    @Path("/")
     @GET
-    @Route(name = "root")
-    fun getRoot(): Response {
-        return Redirect.to(urlGenerator.action(FrontController::getHome))
-    }
-
-    @Path("/adm")
-    @GET
-    @Route(name = "home")
+    @Route(names = arrayOf("adm.home"))
     fun getHome(): Response {
         if (guard.check) {
             return Redirect.to(urlGenerator.action(SystemController::getDashboard))

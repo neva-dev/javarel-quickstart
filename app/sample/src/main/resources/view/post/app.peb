@@ -1,4 +1,4 @@
-{% extends "bundle://adm/view/layout/master.peb" %}
+{% extends "bundle://sample/view/layout/master.peb" %}
 
 {% block content %}
 
@@ -13,9 +13,9 @@
             <h2>Add new post</h2>
 
             <form class="post-form" method="POST" enctype="multipart/form-data" action="javascript:"
-                data-create-url="{{ route(action='adm.post.PostController.create') }}"
-                data-list-url="{{ route(action='adm.post.PostController.list') }}"
-                data-delete-url="{{ route(action='adm.post.PostController.delete', params={'id': '<id>'}) }}">
+                data-create-url="{{ route(action='sample.post.PostController.create') }}"
+                data-list-url="{{ route(action='sample.post.PostController.list') }}"
+                data-delete-url="{{ route(action='sample.post.PostController.delete', params={'id': '<id>'}) }}">
                 <div class="form-group">
                     <label for="post-title">Title</label>
                     <input id="post-title" name="post.title" type="text" class="form-control" placeholder="Title" autofocus>

@@ -1,4 +1,4 @@
-package com.neva.javarel.app.adm.post
+package com.neva.javarel.app.sample.post
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition
 import org.glassfish.jersey.media.multipart.FormDataParam

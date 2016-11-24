@@ -1,4 +1,4 @@
-package com.neva.javarel.app.adm.post
+package com.neva.javarel.app.sample.post
 
 import com.neva.javarel.communication.rest.api.UrlGenerator
 import com.neva.javarel.presentation.asset.api.AssetPath

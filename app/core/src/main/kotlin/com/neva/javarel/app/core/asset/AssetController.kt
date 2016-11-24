@@ -13,7 +13,7 @@ class AssetController : Controller() {
 
     @GET
     @Path("/{" + AssetPath.PATH_PARAM + ":.+}")
-    @Route(name = AssetPath.ROUTE_NAME)
+    @Route(names = arrayOf(AssetPath.ROUTE_NAME))
     fun getOrigin(@PathParam(AssetPath.PATH_PARAM) path: String): Response {
         val asset = asset(path)
 

@@ -24,6 +24,7 @@ allprojects {
 dependencies {
     osgiModule project(':app:core')
     osgiModule project(':app:adm')
+    osgiModule project(':app:sample')
 }
 
 osgiContainer {

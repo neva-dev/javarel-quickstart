@@ -7,7 +7,7 @@ apply plugin: 'neva.osgi-module'
 apply plugin: 'neva.scr'
 apply plugin: 'neva.openjpa'
 
-description = 'Javarel :: Administrative Application'
+description = 'Quickstart :: Administrative Module'
 
 jar {
     manifest {

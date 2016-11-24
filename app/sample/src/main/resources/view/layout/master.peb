@@ -1,0 +1,5 @@
+{% extends "bundle://adm/view/layout/master.peb" %}
+
+{% block header %}
+    {% include "bundle://adm/view/layout/header.peb" with {"navbar": "bundle://sample/view/layout/header/navbar.peb"} %}
+{% endblock %}

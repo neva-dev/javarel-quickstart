@@ -1,0 +1,24 @@
+buildscript {
+    apply from: rootProject.file('buildscript.gradle'), to: buildscript
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'neva.osgi-module'
+apply plugin: 'neva.scr'
+apply plugin: 'neva.openjpa'
+
+description = 'Quickstart :: Sample Module'
+
+jar {
+    manifest {
+        name project.description
+        instruction 'Export-Package', "com.neva.javarel.app.sample.*;version=${project.version}"
+        instruction 'Component-Scan', 'com.neva.javarel.app.sample.*'
+        instruction 'Resource-Namespace', 'sample'
+        instruction 'Rest-Route-Alias', 'sample=com.neva.javarel.app.sample'
+    }
+}
+
+dependencies {
+    compile project(':app:core')
+}

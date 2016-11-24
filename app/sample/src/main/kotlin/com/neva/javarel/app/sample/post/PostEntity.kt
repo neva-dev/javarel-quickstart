@@ -1,4 +1,4 @@
-package com.neva.javarel.app.adm.post
+package com.neva.javarel.app.sample.post
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.bson.types.ObjectId

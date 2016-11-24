@@ -1,0 +1,19 @@
+<ul class="nav navbar-nav">
+    {% if guard.check %}
+        <li class="active">
+            <a href="{{ route(action='sample.post.PostController.app') }}">
+                <i class="fa fa-commenting-o"></i> Post Application
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="{{ route(action='sample.structure.SampleController.getHandlebars') }}">
+                <i class="fa fa-code"></i> Handlebars
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="{{ route(action='sample.structure.SampleController.getVersion') }}">
+                <i class="fa fa-server"></i> Version as JSON
+            </a>
+        </li>
+    {% endif %}
+</ul>
