@@ -1,63 +1,67 @@
 $(function () {
-    Handlebars.registerHelper('formatDate', function(date) {
-        return moment(date).format('MMMM Do YYYY, h:mm:ss');
-    });
+    $('#post-app').each(function () {
+        var $app = $(this);
 
-    var $list = $('.post-list');
-    var $form = $('.post-form');
-    var listTemplate = Handlebars.compile($("script[type='text/x-handlebars-template']", $list).html());
-
-    function render() {
-        $.ajax({
-            method: 'GET',
-            url: $form.data('listUrl'),
-            success: function (posts) {
-                $list.html(listTemplate({posts: posts}));
-            },
-            error: function () {
-                alert('Cannot render posts properly due to internal server error.');
-            }
-        });
-    }
-
-    $form.on('submit', function () {
-        $.ajax({
-            url: $form.data('createUrl'),
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            type: 'POST',
-            processData: false,
-            success: function () {
-                render();
-                $form.reset();
-            },
-            error: function () {
-                alert('Cannot add post due to internal server error.');
-            }
+        Handlebars.registerHelper('formatDate', function(date) {
+            return moment(date).format('MMMM Do YYYY, h:mm:ss');
         });
 
-        return false;
-    });
+        var $list = $('.post-list', $app);
+        var $form = $('.post-form', $app);
+        var listTemplate = Handlebars.compile($("script[type='text/x-handlebars-template']", $list).html());
 
-    $list.delegate('.post-delete', 'click', function () {
-        var $link = $(this);
-
-        if (confirm("Are you sure want to delete this post?")) {
+        function render() {
             $.ajax({
-                method: 'DELETE',
-                url: $form.data('deleteUrl').split('<id>').join($link.data('id')),
-                success: function () {
-                    render();
+                method: 'GET',
+                url: $form.data('listUrl'),
+                success: function (posts) {
+                    $list.html(listTemplate({posts: posts}));
                 },
                 error: function () {
-                    alert('Cannot delete post due to internal server error.');
+                    alert('Cannot render posts properly due to internal server error.');
                 }
             });
         }
 
-        return false;
-    });
+        $form.on('submit', function () {
+            $.ajax({
+                url: $form.data('createUrl'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                type: 'POST',
+                processData: false,
+                success: function () {
+                    render();
+                    $form.reset();
+                },
+                error: function () {
+                    alert('Cannot add post due to internal server error.');
+                }
+            });
 
-    render();
+            return false;
+        });
+
+        $list.delegate('.post-delete', 'click', function () {
+            var $link = $(this);
+
+            if (confirm("Are you sure want to delete this post?")) {
+                $.ajax({
+                    method: 'DELETE',
+                    url: $form.data('deleteUrl').split('<id>').join($link.data('id')),
+                    success: function () {
+                        render();
+                    },
+                    error: function () {
+                        alert('Cannot delete post due to internal server error.');
+                    }
+                });
+            }
+
+            return false;
+        });
+
+        render();
+    });
 });
