@@ -5029,6 +5029,15 @@ body {
 .msg {
   padding: 15px; }
 
+.navbar-brand-dropdown {
+  margin: 0; }
+
+.navbar-brand.dropdown-toggle {
+  padding-top: 15px; }
+
+.dropdown-menu.dropdown-brand {
+  margin-left: -15px; }
+
 /* === Specific === */
 #system-frame {
   width: 100%;
