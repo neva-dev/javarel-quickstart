@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>Sample Handlebars</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -27,9 +27,9 @@
         <p>Testing route helper, go home using:</p>
 
         <ul>
-            <li><a href="{{ route 'name:home' }}">Named route</a></li>
-            <li><a href="{{ route 'action:adm.FrontController.getHome' }}">Action</a></li>
-            <li><a href="{{ route 'adm.FrontController.getHome' }}">Action (shorthand syntax)</a></li>
+            <li><a href="{{ route 'name:sample.home' }}">Named route</a></li>
+            <li><a href="{{ route 'action:sample.structure.SampleController.getHome' }}">Action</a></li>
+            <li><a href="{{ route 'sample.structure.SampleController.getHome' }}">Action (shorthand syntax)</a></li>
         </ul>
 
         <hr>
