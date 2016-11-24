@@ -21,7 +21,7 @@
                 <th>URI</th>
                 <th>Parameters</th>
                 <th>Method</th>
-                <th>Name</th>
+                <th>Names</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -36,11 +36,17 @@
                             {{ route.path }}
                         {% endif %}
                     </td>
-                    <td>{{ route.parameters | join(', ') }}</td>
+                    <td>
+                        {% if route.parameters is not empty %}
+                            {{ route.parameters | join(', ') }}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
                     <td>{{ route.method }}</td>
                     <td>
-                        {% if route.name is not empty %}
-                            {{ route.name }}
+                        {% if route.names is not empty %}
+                            {{ route.names | join(', ') }}
                         {% else %}
                             &mdash;
                         {% endif %}
