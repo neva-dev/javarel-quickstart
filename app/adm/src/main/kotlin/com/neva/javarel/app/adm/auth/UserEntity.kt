@@ -18,7 +18,7 @@ open class UserEntity : Authenticable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ID_COLUMN)
-    lateinit var id: Integer
+    var id: Long = 0
 
     @Column(name = EMAIL_COLUMN, nullable = false, unique = true)
     lateinit var email: String

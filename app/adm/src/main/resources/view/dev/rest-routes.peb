@@ -8,7 +8,9 @@
     </div>
 
     <div class="page-actions">
-        <a class="btn btn-primary" href="/application.wadl"><i class="fa fa-file-code-o"></i> Application WADL</a>
+        <a class="btn btn-primary" href="/application.wadl">
+            <i class="fa fa-file-code-o"></i> Application WADL
+        </a>
     </div>
 
     {% if routes is empty %}

@@ -7,7 +7,9 @@
         <h1>Page not found!</h1>
     </div>
 
-    <p class="msg bg-info"><i class="fa fa-info-circle"></i> Probably address that you entered does not exist or it is not available anymore.</p>
+    <p class="msg bg-info">
+        <i class="fa fa-info-circle"></i> Probably address that you entered does not exist or it is not available anymore.
+    </p>
 </div>
 
 {% endblock %}
