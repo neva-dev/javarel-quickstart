@@ -14,6 +14,7 @@ class ConfigPersistenceManager : PersistenceManager {
     @Reference
     private lateinit var dbAdmin: DatabaseAdmin
 
+    @Suppress("UNCHECKED_CAST")
     override fun store(pid: String, properties: Dictionary<*, *>) {
         dbAdmin.session {
             val repo = ConfigRepository(it)
@@ -24,7 +25,7 @@ class ConfigPersistenceManager : PersistenceManager {
                 config.pid = pid
             }
 
-            config.properties = properties
+            config.properties = properties as Dictionary<String, Any>
 
             repo.save(config)
         }
