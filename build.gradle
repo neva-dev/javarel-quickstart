@@ -28,7 +28,6 @@ dependencies {
 }
 
 osgiContainer {
-    felix()
     debug(16661)
     later(["javarel-*", "quickstart-*"])
     javaArg('-Dderby.system.home=db')
