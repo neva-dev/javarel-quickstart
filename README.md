@@ -1,5 +1,11 @@
 # Javarel Quickstart
 
+<br>
+<p align="center">
+  <img src="doc/javarel-logo.png"/>
+</p>
+<br>
+
 Sample application that can be used as quick start for using [Javarel Framework](https://github.com/neva-dev/javarel-framework).
 
 ## Documentation
